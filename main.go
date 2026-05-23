@@ -1,28 +1,34 @@
 package main
 
 import (
-	"fmt"
 	"log"
+	"os"
 
+	"github.com/shubh1855/Gator/internal/cli"
 	"github.com/shubh1855/Gator/internal/config"
 )
 
 func main() {
+	if len(os.Args) < 2 {
+		log.Fatal("not enough arguments provided")
+	}
+
 	cfg, err := config.Read()
 	if err != nil {
-		log.Fatalf("error reading config file: %v", err)
-	}
-	fmt.Printf("Read config: %v\n", cfg)
-
-	err = cfg.SetUser("shubh")
-	if err != nil {
-		log.Fatalf("could not set current user: %v", err)
+		log.Fatal(err)
 	}
 
-	cfg, err = config.Read()
-	if err != nil {
-		log.Fatalf("error reading config file: %v", err)
+	s := cli.NewState(&cfg)
+
+	cmds := cli.NewCommands()
+	cmds.Register("login", cli.HandlerLogin)
+
+	cmd := cli.Command{
+		Name: os.Args[1],
+		Args: os.Args[2:],
 	}
 
-	fmt.Printf("%+v\n", cfg)
+	if err := cmds.Run(s, cmd); err != nil {
+		log.Fatal(err)
+	}
 }
