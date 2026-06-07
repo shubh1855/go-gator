@@ -40,6 +40,7 @@ func main() {
 	cmds.Register("login", cli.HandlerLogin)
 	cmds.Register("register", cli.HandlerRegister)
 	cmds.Register("reset", cli.HandlerReset)
+	cmds.Register("users", cli.HandleUsers)
 
 	cmd := cli.Command{
 		Name: os.Args[1],
