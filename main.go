@@ -44,6 +44,8 @@ func main() {
 	cmds.Register("agg", cli.HandlerAgg)
 	cmds.Register("addfeed", cli.HandlerAddFeed)
 	cmds.Register("feeds", cli.HandlerFeeds)
+	cmds.Register("follow", cli.HandlerFollow)
+	cmds.Register("following", cli.HandlerFollowing)
 
 	cmd := cli.Command{
 		Name: os.Args[1],

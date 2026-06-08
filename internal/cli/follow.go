@@ -10,35 +10,27 @@ import (
 	"github.com/shubh1855/Gator/internal/database"
 )
 
-func HandlerAddFeed(s *State, cmd Command) error {
-	if len(cmd.Args) != 2 {
-		return errors.New("usage: addfeed <name> <url>")
+func HandlerFollow(s *State, cmd Command) error {
+	if len(cmd.Args) != 1 {
+		return errors.New("usage: follow <url>")
 	}
 
-	name := cmd.Args[0]
-	url := cmd.Args[1]
+	url := cmd.Args[0]
 
 	user, err := getCurrentUser(s)
 	if err != nil {
 		return err
 	}
 
-	feed, err := s.DB.CreateFeed(
+	feed, err := s.DB.GetFeedByURL(
 		context.Background(),
-		database.CreateFeedParams{
-			ID:        uuid.New(),
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			Name:      name,
-			Url:       url,
-			UserID:    user.ID,
-		},
+		url,
 	)
 	if err != nil {
 		return err
 	}
 
-	_, err = s.DB.CreateFeedFollow(
+	follow, err := s.DB.CreateFeedFollow(
 		context.Background(),
 		database.CreateFeedFollowParams{
 			ID:        uuid.New(),
@@ -48,12 +40,15 @@ func HandlerAddFeed(s *State, cmd Command) error {
 			FeedID:    feed.ID,
 		},
 	)
-
 	if err != nil {
 		return err
 	}
 
-	fmt.Println(feed)
+	fmt.Printf(
+		"%s is now following %s\n",
+		follow.UserName,
+		follow.FeedName,
+	)
 
 	return nil
 }
