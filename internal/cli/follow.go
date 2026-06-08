@@ -10,17 +10,12 @@ import (
 	"github.com/shubh1855/Gator/internal/database"
 )
 
-func HandlerFollow(s *State, cmd Command) error {
+func HandlerFollow(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return errors.New("usage: follow <url>")
 	}
 
 	url := cmd.Args[0]
-
-	user, err := getCurrentUser(s)
-	if err != nil {
-		return err
-	}
 
 	feed, err := s.DB.GetFeedByURL(
 		context.Background(),

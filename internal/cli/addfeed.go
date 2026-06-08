@@ -10,18 +10,13 @@ import (
 	"github.com/shubh1855/Gator/internal/database"
 )
 
-func HandlerAddFeed(s *State, cmd Command) error {
+func HandlerAddFeed(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return errors.New("usage: addfeed <name> <url>")
 	}
 
 	name := cmd.Args[0]
 	url := cmd.Args[1]
-
-	user, err := getCurrentUser(s)
-	if err != nil {
-		return err
-	}
 
 	feed, err := s.DB.CreateFeed(
 		context.Background(),
