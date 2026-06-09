@@ -32,6 +32,8 @@ func ScrapeFeeds(ctx context.Context, db *database.Queries) error {
 
 	for _, item := range rssFeed.Channel.Item {
 
+		publishedAt := parsePublishedTime(item.PubDate)
+
 		_, err := db.CreatePost(
 			ctx,
 			database.CreatePostParams{
@@ -45,8 +47,8 @@ func ScrapeFeeds(ctx context.Context, db *database.Queries) error {
 					Valid:  item.Description != "",
 				},
 				PublishedAt: sql.NullTime{
-					Time:  parsePublishedTime(item.PubDate),
-					Valid: item.PubDate != "",
+					Time:  publishedAt,
+					Valid: !publishedAt.IsZero(),
 				},
 				FeedID: feed.ID,
 			},
@@ -54,10 +56,7 @@ func ScrapeFeeds(ctx context.Context, db *database.Queries) error {
 
 		if err != nil {
 
-			if strings.Contains(
-				err.Error(),
-				"duplicate key",
-			) {
+			if strings.Contains(err.Error(), "duplicate key") {
 				continue
 			}
 
