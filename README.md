@@ -35,7 +35,7 @@ psql --version
 Install the latest version directly from GitHub:
 
 ```bash
-go install github.com/shubh1855/Gator@latest
+go install github.com/shubh1855/go-gator@latest
 ```
 
 Ensure your Go binary directory is included in your PATH.

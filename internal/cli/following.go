@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/shubh1855/Gator/internal/database"
+	"github.com/shubh1855/go-gator/internal/database"
 )
 
 func HandlerFollowing(s *State, cmd Command, user database.User) error {

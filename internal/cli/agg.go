@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/shubh1855/Gator/internal/rss"
+	"github.com/shubh1855/go-gator/internal/rss"
 )
 
 func HandlerAgg(s *State, cmd Command) error {

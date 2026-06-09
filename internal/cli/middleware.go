@@ -3,7 +3,7 @@ package cli
 import (
 	"context"
 
-	"github.com/shubh1855/Gator/internal/database"
+	"github.com/shubh1855/go-gator/internal/database"
 )
 
 func MiddlewareLoggedIn(

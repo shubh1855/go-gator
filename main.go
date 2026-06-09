@@ -7,9 +7,9 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/shubh1855/Gator/internal/cli"
-	"github.com/shubh1855/Gator/internal/config"
-	"github.com/shubh1855/Gator/internal/database"
+	"github.com/shubh1855/go-gator/internal/cli"
+	"github.com/shubh1855/go-gator/internal/config"
+	"github.com/shubh1855/go-gator/internal/database"
 )
 
 func main() {

@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/shubh1855/Gator/internal/config"
-	"github.com/shubh1855/Gator/internal/database"
+	"github.com/shubh1855/go-gator/internal/config"
+	"github.com/shubh1855/go-gator/internal/database"
 )
 
 type State struct {
