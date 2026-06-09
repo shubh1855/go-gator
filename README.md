@@ -35,7 +35,7 @@ psql --version
 Install the latest version directly from GitHub:
 
 ```bash
-go install github.com/shubh1855/go-gator@latest
+go install github.com/shubh1855/go-go-gator@latest
 ```
 
 Ensure your Go binary directory is included in your PATH.
@@ -45,7 +45,7 @@ Ensure your Go binary directory is included in your PATH.
 Create a PostgreSQL database:
 
 ```sql
-CREATE DATABASE gator;
+CREATE DATABASE go-gator;
 ```
 
 Run the database migrations:
@@ -57,7 +57,7 @@ goose postgres "<connection_string>" up
 Example:
 
 ```bash
-goose postgres "postgres://postgres:password@localhost:5432/gator" up
+goose postgres "postgres://postgres:password@localhost:5432/go-gator" up
 ```
 
 ## Configuration
@@ -72,7 +72,7 @@ Example:
 
 ```json
 {
-  "db_url": "postgres://postgres:password@localhost:5432/gator?sslmode=disable",
+  "db_url": "postgres://postgres:password@localhost:5432/go-gator?sslmode=disable",
   "current_user_name": ""
 }
 ```
@@ -84,49 +84,49 @@ Replace the connection string with your PostgreSQL credentials.
 ### Register a User
 
 ```bash
-gator register alice
+go-gator register alice
 ```
 
 ### Login
 
 ```bash
-gator login alice
+go-gator login alice
 ```
 
 ### List Users
 
 ```bash
-gator users
+go-gator users
 ```
 
 ### Add a Feed
 
 ```bash
-gator addfeed "Hacker News" https://news.ycombinator.com/rss
+go-gator addfeed "Hacker News" https://news.ycombinator.com/rss
 ```
 
 ### View All Feeds
 
 ```bash
-gator feeds
+go-gator feeds
 ```
 
 ### Follow a Feed
 
 ```bash
-gator follow https://news.ycombinator.com/rss
+go-gator follow https://news.ycombinator.com/rss
 ```
 
 ### View Followed Feeds
 
 ```bash
-gator following
+go-gator following
 ```
 
 ### Unfollow a Feed
 
 ```bash
-gator unfollow https://news.ycombinator.com/rss
+go-gator unfollow https://news.ycombinator.com/rss
 ```
 
 ### Start the Aggregator
@@ -134,15 +134,15 @@ gator unfollow https://news.ycombinator.com/rss
 Fetch new posts from subscribed feeds at a fixed interval:
 
 ```bash
-gator agg 30s
+go-gator agg 30s
 ```
 
 Examples:
 
 ```bash
-gator agg 10s
-gator agg 1m
-gator agg 5m
+go-gator agg 10s
+go-gator agg 1m
+go-gator agg 5m
 ```
 
 ### Browse Posts
@@ -150,13 +150,13 @@ gator agg 5m
 Show the latest posts from feeds you follow:
 
 ```bash
-gator browse
+go-gator browse
 ```
 
 Specify a custom limit:
 
 ```bash
-gator browse 10
+go-gator browse 10
 ```
 
 ## Architecture
