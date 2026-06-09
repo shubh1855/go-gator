@@ -1,102 +1,70 @@
-### Repo description
-
-```text
-CLI RSS aggregator built in Go as a learning project using PostgreSQL, SQLC, and Goose
-```
-
----
-
-### README.md
-
-````markdown
 # Go-Gator
 
-A CLI-based RSS feed aggregator written in Go.
+Go-Gator is a command-line RSS aggregator built with Go and PostgreSQL.
 
-This project is being built as part of learning backend development in Go, focusing on database-backed CLI application design.
+It allows users to subscribe to RSS feeds, follow feeds created by other users, continuously aggregate new content, and browse posts directly from the terminal.
 
-## Current Features
+## Features
 
-- Command-based CLI architecture
-- User registration
-- User login
-- PostgreSQL integration
+- User registration and login
+- RSS feed management
+- Follow and unfollow feeds
+- Background feed aggregation
+- Automatic post collection and storage
+- Browse posts from followed feeds
+- PostgreSQL-backed persistence
 - Database migrations with Goose
-- Type-safe query generation with SQLC
-- Local config management
+- Type-safe SQL queries with SQLC
 
-## Tech Stack
+## Requirements
 
-- Go
+Before installing Go-Gator, ensure you have:
+
+- Go 1.24 or newer
 - PostgreSQL
-- SQLC
-- Goose
-- lib/pq
-- UUID
 
-## Project Structure
-
-```text
-.
-├── internal
-│   ├── cli
-│   │   ├── commands.go
-│   │   ├── login.go
-│   │   ├── register.go
-│   │   └── state.go
-│   ├── config
-│   │   └── config.go
-│   └── database
-│       ├── db.go
-│       ├── models.go
-│       └── users.sql.go
-├── sql
-│   ├── queries
-│   │   └── users.sql
-│   └── schema
-│       └── 001_users.sql
-├── main.go
-├── sqlc.yaml
-├── go.mod
-└── go.sum
-```
-````
-
-## Setup
-
-Install dependencies:
+Verify your installation:
 
 ```bash
-go mod tidy
+go version
+psql --version
 ```
 
-Install tools:
+## Installation
+
+Install the latest version directly from GitHub:
 
 ```bash
-go install github.com/pressly/goose/v3/cmd/goose@latest
-go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+go install github.com/shubh1855/Gator@latest
 ```
+
+Ensure your Go binary directory is included in your PATH.
 
 ## Database Setup
 
-Create PostgreSQL database:
+Create a PostgreSQL database:
 
 ```sql
 CREATE DATABASE gator;
 ```
 
-Run migrations:
+Run the database migrations:
 
 ```bash
-cd sql/schema
-goose postgres "postgres://postgres:<password>@localhost:5432/gator" up
+goose postgres "<connection_string>" up
 ```
 
-## Config
-
-Create:
+Example:
 
 ```bash
+goose postgres "postgres://postgres:password@localhost:5432/gator" up
+```
+
+## Configuration
+
+Create a configuration file at:
+
+```text
 ~/.gatorconfig.json
 ```
 
@@ -104,25 +72,136 @@ Example:
 
 ```json
 {
-  "db_url": "postgres://postgres:<password>@localhost:5432/gator?sslmode=disable",
+  "db_url": "postgres://postgres:password@localhost:5432/gator?sslmode=disable",
   "current_user_name": ""
 }
 ```
 
+Replace the connection string with your PostgreSQL credentials.
+
 ## Usage
 
-Register:
+### Register a User
 
 ```bash
-go run . register alice
+gator register alice
 ```
 
-Login:
+### Login
 
 ```bash
-go run . login alice
+gator login alice
 ```
 
-## Notes
+### List Users
 
-This project is still under active development. More RSS aggregation functionality will be added incrementally.
+```bash
+gator users
+```
+
+### Add a Feed
+
+```bash
+gator addfeed "Hacker News" https://news.ycombinator.com/rss
+```
+
+### View All Feeds
+
+```bash
+gator feeds
+```
+
+### Follow a Feed
+
+```bash
+gator follow https://news.ycombinator.com/rss
+```
+
+### View Followed Feeds
+
+```bash
+gator following
+```
+
+### Unfollow a Feed
+
+```bash
+gator unfollow https://news.ycombinator.com/rss
+```
+
+### Start the Aggregator
+
+Fetch new posts from subscribed feeds at a fixed interval:
+
+```bash
+gator agg 30s
+```
+
+Examples:
+
+```bash
+gator agg 10s
+gator agg 1m
+gator agg 5m
+```
+
+### Browse Posts
+
+Show the latest posts from feeds you follow:
+
+```bash
+gator browse
+```
+
+Specify a custom limit:
+
+```bash
+gator browse 10
+```
+
+## Architecture
+
+### Stack
+
+- **Language:** Go
+- **Database:** PostgreSQL
+- **Migrations:** Goose
+- **Query Generation:** SQLC
+- **Feed Format:** RSS/XML
+
+### Components
+
+- **CLI Layer** – command handling and user interaction
+- **Database Layer** – SQLC-generated query code
+- **RSS Layer** – feed fetching and parsing
+- **Aggregator** – background feed collection service
+
+## Development
+
+Generate SQLC code:
+
+```bash
+sqlc generate
+```
+
+Run migrations:
+
+```bash
+goose postgres "<connection_string>" up
+```
+
+Rollback the latest migration:
+
+```bash
+goose postgres "<connection_string>" down
+```
+
+Run the application locally:
+
+```bash
+go run .
+```
+
+## License
+
+MIT License
