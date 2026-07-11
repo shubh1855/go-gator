@@ -12,9 +12,13 @@ func HandlerBrowse(s *State, cmd Command, user database.User) error {
 	limit := int32(2)
 
 	if len(cmd.Args) == 2 {
-		val, err := strconv.Atoi(cmd.Args[0])
+		val, err := strconv.ParseInt(cmd.Args[0], 10, 32)
 		if err != nil {
 			return err
+		}
+
+		if val < 0 {
+			return fmt.Errorf("limit  must be non-negative")
 		}
 
 		limit = int32(val)

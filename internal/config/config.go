@@ -24,6 +24,7 @@ func Read() (Config, error) {
 		return Config{}, err
 	}
 
+	// #nosec G304 -- path is constructed from the user's home directory and a constant file name
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return Config{}, err
